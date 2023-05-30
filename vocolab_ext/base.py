@@ -1,6 +1,7 @@
 import abc
 import importlib
 import sys
+from typing import Any, Optional
 
 if sys.version_info < (3, 10):
     from importlib_metadata import entry_points
@@ -26,7 +27,7 @@ class PluginRegistry(abc.ABC):
             return None
 
     @staticmethod
-    def _load_obj(entry):
+    def _load_obj(entry) -> Optional[Any]:
         path, obj_name = tuple(entry.value.split(':'))
         lib = importlib.import_module(path)
         return getattr(lib, obj_name, None)

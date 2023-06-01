@@ -1,6 +1,8 @@
 import abc
 import json
 import sys
+from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional, Any, List, Union
 
@@ -45,6 +47,17 @@ def obj_load(location: Path) -> Union[Dict, List]:
         raise ValueError(f'File given {location} of unknown type !!')
 
 
+@dataclass
+class LeaderboardEntryBase:
+    submission_id: str
+    model_id: str
+    description: str
+    author: str
+    author_label: str
+    submission_date: datetime
+    submitted_by: Optional[str]
+
+
 class LeaderboardManager(abc.ABC):
     """A class allowing to manage leaderboard objects"""
 
@@ -78,6 +91,11 @@ class LeaderboardManager(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def create_from_entries(cls, name: str, entries: List[Any]):
+        pass
+
+    @staticmethod
+    @abc.abstractmethod
+    def extract_base_from_entry(entry: Any) -> LeaderboardEntryBase:
         pass
 
     @abc.abstractmethod

@@ -103,6 +103,11 @@ class LeaderboardManager(abc.ABC):
     def update_entry_from_base(entry: Any, base: LeaderboardEntryBase):
         pass
 
+    @staticmethod
+    @abc.abstractmethod
+    def write_entry(entry: Any, file: Path):
+        pass
+
     @abc.abstractmethod
     def export_as_csv(self, file: Path):
         pass

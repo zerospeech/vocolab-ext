@@ -52,9 +52,9 @@ class LeaderboardEntryBase:
     submission_id: str
     model_id: str
     description: str
-    author: str
+    authors: str
     author_label: str
-    submission_date: datetime
+    submission_date: Optional[datetime]
     submitted_by: Optional[str]
 
 
@@ -96,6 +96,11 @@ class LeaderboardManager(abc.ABC):
     @staticmethod
     @abc.abstractmethod
     def extract_base_from_entry(entry: Any) -> LeaderboardEntryBase:
+        pass
+
+    @staticmethod
+    @abc.abstractmethod
+    def update_entry_from_base(entry: Any, base: LeaderboardEntryBase):
         pass
 
     @abc.abstractmethod

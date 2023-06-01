@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Dict, Optional, Any, List, Union
 
 if sys.version_info >= (3, 11):
-    import tomllib
+    import tomllib  # noqa: does not exist in python_version < 3.11
 else:
     try:
         import toml as tomllib
@@ -68,13 +68,20 @@ class LeaderboardManager(abc.ABC):
     @abc.abstractmethod
     def load_entry_from_obj(cls, name: str, obj: Dict):
         """ Load leaderboard entry from a given object """
+        pass
 
+    @classmethod
+    def create_from_entry_folder(cls, name: str, location: Path):
+        entries = [obj_load(file) for file in location.iterdir()]
+        return cls.create_from_entries(name, entries)
+
+    @classmethod
     @abc.abstractmethod
-    def export_as_csv(self, file: Path):
+    def create_from_entries(cls, name: str, entries: List[Any]):
         pass
 
     @abc.abstractmethod
-    def create_from_entries(self, entries: List[Any], name: str):
+    def export_as_csv(self, file: Path):
         pass
 
     @abc.abstractmethod
